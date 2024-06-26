@@ -1,6 +1,6 @@
-pandasai==0.2.1
-pandas==1.5.3
-streamlit==1.22.0
-langchain==0.0.135
+pandasai
+pandas
+streamlit
+langchain
 openai
-Pillow==9.3.0
+Pillow
