@@ -1,0 +1,5 @@
+pandasai
+pandas
+streamlit
+langchain
+openai
