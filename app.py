@@ -2,7 +2,6 @@ import streamlit as st
 from pandasai.llm.openai import OpenAI
 import pandas as pd
 from pandasai import SmartDataframe, Agent
-from PIL import Image
 import io
 
 st.title("Insight Analyzer")
@@ -13,14 +12,6 @@ if openai_api_key:
     llm = OpenAI(api_token=openai_api_key)
 
     uploader_file = st.file_uploader("Upload a CSV file", type=["csv"])
-
-    def is_image(file_name):
-        try:
-            with Image.open(file_name) as img:
-                img.verify()
-                return True
-        except (IOError, SyntaxError):
-            return False
 
     if uploader_file is not None:
         data = pd.read_csv(uploader_file, dayfirst=True)
@@ -38,8 +29,8 @@ if openai_api_key:
                 with st.spinner("Generating response..."):
                     try:
                         graph = df.chat(full_prompt)
-                        if isinstance(graph, str) and is_image(io.BytesIO(graph.encode('utf-8'))):
-                            st.image(io.BytesIO(graph.encode('utf-8')))
+                        if "temp_chart" in str(graph):
+                            st.image(graph)
 
                         response = agent.chat(prompt + " Instructions: we don't generate graphs even if it is asked for")
                         if "temp_chart" not in str(response):
